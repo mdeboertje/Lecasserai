@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Room{% endblock %}
+
+{% block body %}
+    <h1>Room</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ room.id }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ room.price + room.extra.additionalCost + room.kindId.additionalPrice }}</td>
+            </tr>
+            <tr>
+                <th>Kind</th>
+                <td>{{ room.kindId }}</td>
+            </tr>
+            <tr>
+                <th>Example image</th>
+                <td>
+                    <img style=" height: 150px; width: auto"
+                         alt="{{ room.filename }}"  src="{{ asset('uploads/images/' ~ room.filename)}}">
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('room_index') }}">back to list</a>
+
+    <a href="{{ path('room_edit', {'id': room.id}) }}">edit</a>
+
+    {{ include('room/_delete_form.html.twig') }}
+{% endblock %}

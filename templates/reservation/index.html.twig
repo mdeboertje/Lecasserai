@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservation index{% endblock %}
+
+{% block body %}
+    <h1>Reservation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Checkin_date</th>
+                <th>Checkout_date</th>
+                <th>Payment_method</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            {% if is_granted('ROLE_ADMIN') %}
+            <tr>
+                <td>{{ reservation.id }}</td>
+                <td>{{ reservation.checkinDate ? reservation.checkinDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.checkoutDate ? reservation.checkoutDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.paymentMethod }}</td>
+                <td>
+                    <a href="{{ path('reservation_show', {'id': reservation.id}) }}">show</a>
+                    <a href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        {% else  %}
+            {% for user_reservation in user_reservations %}
+            <tr>
+                <td>{{ reservation.id }}</td>
+                <td>{{ reservation.checkinDate ? reservation.checkinDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.checkoutDate ? reservation.checkoutDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reservation.paymentMethod }}</td>
+                <td>
+                    <a href="{{ path('reservation_show', {'id': reservation.id}) }}">show</a>
+                    <a href="{{ path('reservation_edit', {'id': reservation.id}) }}">edit</a>
+                </td>
+            </tr>
+                {% endfor %}
+            {% endif %}
+
+        </tbody>
+    </table>
+
+    <a href="{{ path('reservation_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Reservation{% endblock %}
+
+{% block body %}
+    <h1>Create new Reservation</h1>
+
+    {{ include('reservation/_form.html.twig') }}
+
+    {% for flashMessage in app.flashes('error') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <h4 class="alert-heading">Error</h4>
+            <p>{{ flashMessage }}</p>
+        </div>
+    {% endfor %}
+
+    <a href="{{ path('reservation_index') }}">back to list</a>
+
+{% endblock %}

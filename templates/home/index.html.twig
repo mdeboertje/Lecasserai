@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
+
+    <div class="container">
+            <div class="jumbotron jumbotron-fluid">
+                <h1 class="display-4">Hotel Lecasserai</h1>
+                <p class="lead">The hotel with endless options!.</p>
+
+            </div>
+        <div class="row">
+            {% for room in rooms %}
+                <div class="col-xl-4 mt-4">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="{{ asset('uploads/images/' ~ room.filename) }}" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ 'Kamer' ~ ' ' ~ room.id }}</h5>
+                            <p class="card-text">{{ room.kindid ~ ' ' ~ room.extra }}</p>
+
+                            {% if room.extra is null %}
+                                <p class="card-text">Just for ${{ room.price + room.kindId.additionalPrice }}</p>
+                            {% elseif room.kindId is null %}
+                                <p class="card-text">Just for ${{ room.price  +  room.extra.additionalCost }}</p>
+                            {% else  %}
+                                <p class="card-text">Just for ${{ room.price  +  room.extra.additionalCost + room.kindId.additionalPrice }}</p>
+                            {% endif %}
+                            <a href="{{ path('reservation_new', {'id': room.id })}}" class="btn btn-primary">Reserve</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
