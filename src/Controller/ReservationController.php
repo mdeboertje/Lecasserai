@@ -8,6 +8,7 @@ use App\Form\ReservationType;
 use App\Repository\KindRepository;
 use App\Repository\ReservationRepository;
 use App\Repository\RoomRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,11 +22,12 @@ class ReservationController extends AbstractController
     /**
      * @Route("/", name="reservation_index", methods={"GET"})
      */
-    public function index(ReservationRepository $reservationRepository): Response
+    public function index(ReservationRepository $reservationRepository, UserRepository $userRepository): Response
     {
         return $this->render('reservation/index.html.twig', [
             'reservations' => $reservationRepository->findAll(),
-            'user_reservations' => $reservationRepository->find($this->getUser())
+            $user = $userRepository->find($this->getUser()),
+            'user_reservations' => $reservationRepository->find($user)
         ]);
     }
 
